@@ -1,0 +1,122 @@
+service: GameStateManager
+plugins:
+  - serverless-stack-output
+custom:
+  output:
+    handler: scripts/output.handler
+    file: .build/stack.yaml
+provider:
+  name: aws
+  region: us-west-2
+  runtime: ruby2.5
+  memorySize: 128
+  logRetentionInDays: 7
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - cognito-idp:AdminInitiateAuth
+        - cognito-idp:DescribeUserPoolClient
+      Resource:
+        - "*"
+    - Effect: Allow
+      Action:
+        - cloudwatch:PutMetricData
+        - cloudwatch:ListMetrics
+        - logs:CreateLogGroup
+        - logs:CreateLogStream
+        - logs:PutLogEvents
+      Resource:
+        - !GetAtt [Pool, Arn]
+    - Effect: Allow
+      Action:
+        - dynamodb:BatchGetItem
+        - dynamodb:BatchWriteItem
+        - dynamodb:DeleteItem
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:UpdateItem
+      Resource:
+        - !GetAtt [Score, Arn]
+  environment:
+    DDB_TABLE: !Ref Score
+    AWS_ACCOUNT_ID: !Ref AWS::AccountId
+
+functions:
+  signIn:
+    handler: lambda/check_auth.lambda_handler
+    environment:
+      USER_POOL_ID: !Ref Pool
+      CLIENT_ID: !Ref PoolClient
+    events:
+      - http:
+          path: create_user
+          method: POST
+  score:
+    handler: lambda/score.lambda_handler
+    events:
+      - http:
+          path: get_highscore
+          method: GET
+          authorizer:
+            # Work around method for accessing Pool Arn see
+            # https://forum.serverless.com/t/dynamic-arn-to-cognito-authorizer/2161/7
+            arn: ${file(.build/stack.yaml):PoolArn}
+          request:
+            parameters:
+              headers:
+                Content-Type: true
+      - http:
+          path: put_highscore
+          method: POST
+            # Work around method for accessing Pool Arn see
+            # https://forum.serverless.com/t/dynamic-arn-to-cognito-authorizer/2161/7
+          authorizer:
+            arn: ${file(.build/stack.yaml):PoolArn}
+  preSignUp:
+    handler: lambda/pre_auth.lambda_handler
+    description: Assist with Cognito pre auth
+    events:
+      - cognitoUserPool:
+          pool: UserManager
+          trigger: PreSignUp
+          existing: true
+resources:
+  Resources:
+    Score:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: gameId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: gameId
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+    Pool:
+      Type: AWS::Cognito::UserPool
+      Properties:
+        UserPoolName: UserManager
+        Policies:
+          PasswordPolicy:
+            MinimumLength: 6
+            RequireLowercase: false
+            RequireNumbers: false
+            RequireSymbols: false
+            RequireUppercase: false
+            TemporaryPasswordValidityDays: 30
+    PoolClient:
+      Type: AWS::Cognito::UserPoolClient
+      Properties:
+        ClientName: GameStateManagerClient
+        UserPoolId: !Ref Pool
+        GenerateSecret: true
+        ExplicitAuthFlows:
+          - ALLOW_ADMIN_USER_PASSWORD_AUTH
+          - ALLOW_REFRESH_TOKEN_AUTH
+  Outputs:
+    PoolArn:
+      Value: !GetAtt Pool.Arn
