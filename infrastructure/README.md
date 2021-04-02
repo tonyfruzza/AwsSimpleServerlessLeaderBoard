@@ -17,11 +17,17 @@ Configure your AWS credentials either by:
 * environment variables
 * Role assigned to an EC2 instance
 
-### Install serverless plugin requirements
-`sls plugin install --name serverless-stack-output`
+### Install serverless plugin requirements (first time only)
+```
+cd infrastructure
+sls plugin install --name serverless-stack-output
+```
 
 #### Serverless invocation
-`sls deploy`
+```
+cd infrastructure
+sls deploy
+```
 
 ## Testing
 Use the provided `unit-test.sh` to test out the functionality. It'll perform the following actions:
