@@ -34,7 +34,7 @@ int main(int argc, char** argv) {
 
     Aws::Client::ClientConfiguration clientConfig;
     clientConfig.region = REGION;    // region must be set for Cognito operations
-    Aws::ApiGatewayV2::ApiGatewayV2Client(clientConfig);
+    Aws::ApiGatewayV2::ApiGatewayV2Client apigwClient(clientConfig);
 
     Aws::ShutdownAPI(options);
     return 0;
