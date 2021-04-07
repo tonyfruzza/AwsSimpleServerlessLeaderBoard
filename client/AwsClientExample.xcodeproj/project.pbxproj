@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A15955C4261E097D0051CA50 /* AwsClientSampleSettings.h in Sources */ = {isa = PBXBuildFile; fileRef = A15955C3261E097D0051CA50 /* AwsClientSampleSettings.h */; };
 		FAA08D6E2604208B00B8449A /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FAA08D6D2604208B00B8449A /* main.cpp */; };
 		FAA08D8B260433E200B8449A /* libaws-cpp-sdk-monitoring.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FAA08D87260433C000B8449A /* libaws-cpp-sdk-monitoring.dylib */; };
 		FAA08D8C260433E200B8449A /* libaws-cpp-sdk-core.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FAA08D86260433C000B8449A /* libaws-cpp-sdk-core.dylib */; };
@@ -25,6 +26,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		A15955C3261E097D0051CA50 /* AwsClientSampleSettings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AwsClientSampleSettings.h; sourceTree = "<group>"; };
 		FAA08D6A2604208A00B8449A /* AwsClientExample */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = AwsClientExample; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAA08D6D2604208B00B8449A /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		FAA08D86260433C000B8449A /* libaws-cpp-sdk-core.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libaws-cpp-sdk-core.dylib"; path = "../../../../../usr/local/lib/libaws-cpp-sdk-core.dylib"; sourceTree = "<group>"; };
@@ -64,6 +66,7 @@
 		FAA08D6C2604208B00B8449A /* AwsClientExample */ = {
 			isa = PBXGroup;
 			children = (
+				A15955C3261E097D0051CA50 /* AwsClientSampleSettings.h */,
 				FAA08D6D2604208B00B8449A /* main.cpp */,
 			);
 			path = AwsClientExample;
@@ -135,6 +138,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FAA08D6E2604208B00B8449A /* main.cpp in Sources */,
+				A15955C4261E097D0051CA50 /* AwsClientSampleSettings.h in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
