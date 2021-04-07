@@ -33,10 +33,8 @@ int main(int argc, char** argv) {
     Aws::InitAPI(options);
 
     Aws::Client::ClientConfiguration clientConfig;
-    client.region = REGION;    // region must be set for Cognito operations
-    Aws::ApiGatewayV2::ApiGatewayV2Client(clientConfig)
-
-    int exitStatus = RunMainLoop();
+    clientConfig.region = REGION;    // region must be set for Cognito operations
+    Aws::ApiGatewayV2::ApiGatewayV2Client(clientConfig);
 
     Aws::ShutdownAPI(options);
     return 0;
