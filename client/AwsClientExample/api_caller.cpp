@@ -65,11 +65,18 @@ bool ApiCaller::sign_in(){
     api_call("/create_user", false, j_request.dump());
     using json = nlohmann::json;
     json j = json::parse(readBuffer);
-    if(j["auth"].get<std::string>().compare("success") != 0){
-        cout << "Error: Authenication failure." << endl;
+    try {
+        if(j["auth"].get<std::string>().compare("success") != 0){
+            cout << "Error: Authenication failure." << endl;
+            signed_in = false;
+            return false;
+        }
+    } catch(...) {
         signed_in = false;
+        cout << "Error: unable to authenticate" << endl;
         return false;
     }
+    
     cout << "Authenticated with user: '" << username << "'" << endl;
     auth_header = "Authorization: " + j["msg"].get<std::string>();
     header_list = curl_slist_append(header_list, auth_header.c_str());
