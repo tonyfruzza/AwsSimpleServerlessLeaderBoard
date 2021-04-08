@@ -10,6 +10,7 @@
 		FAA08D6E2604208B00B8449A /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FAA08D6D2604208B00B8449A /* main.cpp */; };
 		FAA08D8C260433E200B8449A /* libaws-cpp-sdk-core.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FAA08D86260433C000B8449A /* libaws-cpp-sdk-core.dylib */; };
 		FAFB3819261E71A50028EE63 /* libcurl.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = FAFB3815261E71620028EE63 /* libcurl.tbd */; };
+		FAFB3820261EC9460028EE63 /* api_caller.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FAFB381E261EC9460028EE63 /* api_caller.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -31,6 +32,8 @@
 		FAA08D86260433C000B8449A /* libaws-cpp-sdk-core.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libaws-cpp-sdk-core.dylib"; path = "../../../../../usr/local/lib/libaws-cpp-sdk-core.dylib"; sourceTree = "<group>"; };
 		FAA08D87260433C000B8449A /* libaws-cpp-sdk-monitoring.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libaws-cpp-sdk-monitoring.dylib"; path = "../../../../../usr/local/lib/libaws-cpp-sdk-monitoring.dylib"; sourceTree = "<group>"; };
 		FAFB3815261E71620028EE63 /* libcurl.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libcurl.tbd; path = usr/lib/libcurl.tbd; sourceTree = SDKROOT; };
+		FAFB381E261EC9460028EE63 /* api_caller.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = api_caller.cpp; sourceTree = "<group>"; };
+		FAFB381F261EC9460028EE63 /* api_caller.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = api_caller.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +70,8 @@
 			isa = PBXGroup;
 			children = (
 				FAA08D6D2604208B00B8449A /* main.cpp */,
+				FAFB381E261EC9460028EE63 /* api_caller.cpp */,
+				FAFB381F261EC9460028EE63 /* api_caller.hpp */,
 			);
 			path = AwsClientExample;
 			sourceTree = "<group>";
@@ -139,6 +144,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FAA08D6E2604208B00B8449A /* main.cpp in Sources */,
+				FAFB3820261EC9460028EE63 /* api_caller.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -263,7 +269,6 @@
 				HEADER_SEARCH_PATHS = /usr/local/include;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/AwsClientExample/libs",
 					/usr/local/lib,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -277,7 +282,6 @@
 				HEADER_SEARCH_PATHS = /usr/local/include;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/AwsClientExample/libs",
 					/usr/local/lib,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
