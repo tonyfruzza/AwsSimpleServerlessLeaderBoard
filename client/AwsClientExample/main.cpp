@@ -3,6 +3,7 @@
 #include <sstream>
 #include <time.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 #include <curl/curl.h>
 
@@ -17,9 +18,9 @@
 
 using namespace std;
 
-const string USER_NAME ("tester");
-const string PASSSWORD ("testing123");
-const string APIGW_ENDPOINT ("sn4h6yk8gg.execute-api.us-west-2.amazonaws.com/dev");
+static string USER_NAME ("tester");     // default value
+static string PASSSWORD ("testing123"); // default value
+static string APIGW_ENDPOINT ("sn4h6yk8gg.execute-api.us-west-2.amazonaws.com/dev"); // default value
 static string readBuffer;
 static string auth_header;
 
@@ -37,8 +38,8 @@ int sign_in(string user, string password){
     curl = curl_easy_init();
     int return_val = 1;
     nlohmann::json j_request = {
-        {"username", USER_NAME},
-        {"password", PASSSWORD}
+        {"username", user},
+        {"password", password}
     };
     string login_request = j_request.dump();
     if(curl){
@@ -119,8 +120,34 @@ int get_high_scores(){
 
 int main(int argc, char** argv) {
     srand((int)time(NULL));
+    int opt;
+    bool endpoint_set = false;
     
-    sign_in("tester", "testing321");
+    while((opt = getopt(argc, argv, "e:u:p:")) != -1){
+        switch(opt){
+            case 'e':
+                cout << optarg << endl;
+                APIGW_ENDPOINT = optarg;
+                endpoint_set = true;
+                break;
+            case 'u':
+                USER_NAME = optarg;
+                break;
+            case 'p':
+                PASSSWORD = optarg;
+                break;
+            default:
+                cout << "Usage: " << argv[0] << " -e API_GW_BASE_ENDPOINT example: sn4h6yk8gg.execute-api.us-west-2.amazonaws.com/dev" << endl;
+                cout << "        -u USERNAME -p PASSWORD" << endl;
+                return -1;
+        }
+    }
+    if(!endpoint_set){
+        cout << "Usage: " << argv[0] << " -e API GW BASE ENDPOINT example: sn4h6yk8gg.execute-api.us-west-2.amazonaws.com/dev" << endl;
+        return -1;
+    }
+    
+    sign_in(USER_NAME, PASSSWORD);
     using json = nlohmann::json;
     json j = json::parse(readBuffer);
     if(j["auth"].get<std::string>().compare("success") != 0){
