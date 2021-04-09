@@ -29,8 +29,13 @@ cd infrastructure
 sls deploy
 ```
 
-## Testing
+## Shell quick testing
 Use the provided `unit-test.sh` to test out the functionality. It'll perform the following actions:
 * create a new user that is authenticated
 * save a score value
 * retrieve the score value
+
+## Client in code
+`client/` provides a sample C++ Xcode code sample that makes use of [libcurl](https://curl.se/libcurl/) and [nlohmann/json](https://github.com/nlohmann/json) to interact with the API Gateway endpoint created in the infrastructure. Once you have these pre requirements on your build machine it should compile on your platform.
+
+This performs the same functionality as the `unit-test.sh` script.
